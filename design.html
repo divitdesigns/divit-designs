@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Studio — Divit</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --navy:#1a3a5c;
+  --gold:#c9a84c;
+  --bg:#0f1923;
+  --surface:#1a2838;
+  --card:#1f3248;
+  --border:#2d4060;
+  --text:#e8f0f8;
+  --muted:#7a9bbf;
+  --accent:#4a9eff;
+  --success:#22c55e;
+  --warn:#f59e0b;
+}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+header{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:1rem 1.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+header h1{
+  font-family:'DM Serif Display',serif;
+  font-size:1.3rem;
+  color:#fff;
+}
+header p{font-size:12px;color:var(--muted);}
+
+.layout{
+  display:grid;
+  grid-template-columns:340px 1fr;
+  min-height:calc(100vh - 57px);
+}
+
+.sidebar{
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  overflow-y:auto;
+}
+
+.sidebar-header{
+  padding:1rem 1.25rem;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.sidebar-header h2{font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;}
+
+.order-card{
+  padding:1rem 1.25rem;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+  transition:background .15s;
+}
+.order-card:hover{background:var(--card);}
+.order-card.active{background:var(--card);border-left:3px solid var(--accent);}
+.oc-name{font-weight:600;font-size:14px;color:#fff;margin-bottom:2px;}
+.oc-type{font-size:12px;color:var(--muted);margin-bottom:4px;}
+.oc-badges{display:flex;gap:6px;}
+.badge{
+  font-size:10px;font-weight:600;
+  padding:2px 8px;border-radius:99px;
+  letter-spacing:.03em;
+}
+.badge.gold{background:rgba(201,168,76,.2);color:var(--gold);}
+.badge.blue{background:rgba(74,158,255,.15);color:var(--accent);}
+.badge.muted{background:rgba(122,155,191,.15);color:var(--muted);}
+
+.main{overflow-y:auto;}
+
+.empty-state{
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  height:100%;
+  padding:3rem;
+  text-align:center;
+  color:var(--muted);
+}
+.empty-state h2{
+  font-family:'DM Serif Display',serif;
+  font-size:1.5rem;
+  color:var(--text);
+  margin-bottom:.5rem;
+}
+
+.detail{padding:1.5rem;}
+.detail-header{margin-bottom:1.5rem;}
+.detail-header h2{
+  font-family:'DM Serif Display',serif;
+  font-size:1.6rem;color:#fff;margin-bottom:.25rem;
+}
+.detail-header p{font-size:13px;color:var(--muted);}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:1.5rem;
+}
+.info-item{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:.85rem 1rem;
+}
+.info-item .k{font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;font-weight:600;}
+.info-item .v{font-size:13px;color:var(--text);font-weight:500;line-height:1.4;}
+
+.content-box{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:1rem;
+  margin-bottom:1.5rem;
+}
+.content-box .label{font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.5rem;font-weight:600;}
+.content-box .text{font-size:13px;color:var(--text);line-height:1.6;white-space:pre-wrap;}
+
+.workflow{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.25rem;
+  margin-bottom:1.5rem;
+}
+.workflow h3{
+  font-size:11px;color:var(--muted);
+  letter-spacing:.08em;text-transform:uppercase;
+  font-weight:600;margin-bottom:1rem;
+}
+.wf-step{
+  display:flex;align-items:flex-start;gap:10px;
+  margin-bottom:.75rem;padding-bottom:.75rem;
+  border-bottom:1px solid var(--border);
+}
+.wf-step:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.wf-num{
+  width:22px;height:22px;border-radius:50%;
+  font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+}
+.wf-num.done{background:var(--success);color:#000;}
+.wf-num.active{background:var(--accent);color:#fff;}
+.wf-num.pending{background:var(--border);color:var(--muted);}
+.wf-text{font-size:13px;line-height:1.5;}
+.wf-text strong{color:#fff;display:block;margin-bottom:1px;}
+.wf-text span{color:var(--muted);font-size:12px;}
+
+.prompt-section{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.25rem;
+  margin-bottom:1.5rem;
+}
+.prompt-section .ps-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:.75rem;
+}
+.prompt-section h3{
+  font-size:11px;color:var(--muted);
+  letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+}
+.copy-btn{
+  background:var(--accent);
+  color:#fff;border:none;
+  border-radius:8px;padding:8px 16px;
+  font-family:inherit;font-size:13px;font-weight:600;
+  cursor:pointer;transition:opacity .2s;
+}
+.copy-btn:hover{opacity:.85;}
+.copy-btn.copied{background:var(--success);color:#000;}
+.prompt-text{
+  background:rgba(0,0,0,.25);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:.85rem 1rem;
+  font-size:11.5px;
+  line-height:1.8;
+  white-space:pre-wrap;
+  font-family:monospace;
+  color:#c8e0ff;
+  max-height:360px;
+  overflow-y:auto;
+}
+
+.monthly-pitch{
+  background:linear-gradient(135deg,rgba(74,158,255,.1),rgba(201,168,76,.08));
+  border:1px solid rgba(74,158,255,.3);
+  border-radius:12px;
+  padding:1.25rem;
+  margin-bottom:1.5rem;
+}
+.monthly-pitch h3{
+  font-size:13px;font-weight:600;color:var(--accent);margin-bottom:.25rem;
+}
+.monthly-pitch p{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:.75rem;}
+.monthly-msg{
+  background:rgba(0,0,0,.25);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:.85rem 1rem;
+  font-size:13px;
+  color:var(--text);
+  line-height:1.6;
+  margin-bottom:.75rem;
+}
+.copy-small{
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--muted);
+  border-radius:7px;padding:6px 14px;
+  font-family:inherit;font-size:12px;cursor:pointer;
+  transition:all .2s;
+}
+.copy-small:hover{border-color:var(--accent);color:var(--accent);}
+
+.action-row{display:flex;gap:10px;flex-wrap:wrap;}
+.action-btn{
+  padding:10px 18px;
+  border-radius:9px;
+  font-family:inherit;font-size:13px;font-weight:500;
+  cursor:pointer;transition:all .2s;
+  border:1px solid var(--border);
+  background:transparent;color:var(--text);
+}
+.action-btn:hover{border-color:var(--accent);color:var(--accent);}
+.action-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+.action-btn.primary:hover{opacity:.85;}
+
+.manual-form{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.25rem;
+  margin-bottom:1.5rem;
+  display:none;
+}
+.manual-form h3{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:1rem;}
+.mf-field{margin-bottom:.85rem;}
+.mf-field label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px;}
+.mf-field input,.mf-field select,.mf-field textarea{
+  width:100%;padding:9px 12px;
+  background:rgba(0,0,0,.25);
+  border:1px solid var(--border);
+  border-radius:8px;
+  color:var(--text);font-family:inherit;font-size:13px;outline:none;
+  transition:border-color .2s;
+}
+.mf-field input:focus,.mf-field textarea:focus{border-color:var(--accent);}
+.mf-field textarea{resize:vertical;min-height:80px;}
+.mf-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+@media(max-width:700px){
+  .layout{grid-template-columns:1fr;}
+  .sidebar{max-height:40vh;}
+  .info-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Divit Design Studio</h1>
+    <p>Private — your orders and AI prompt generator</p>
+  </div>
+  <button class="action-btn primary" onclick="toggleManual()">+ Manual entry</button>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>Orders</h2>
+      <button class="copy-small" onclick="loadOrders()">↻ Refresh</button>
+    </div>
+    <div id="order-list">
+      <div style="padding:1rem;font-size:13px;color:var(--muted);">No orders yet. They appear here when clients submit the form.</div>
+    </div>
+  </aside>
+
+  <main class="main" id="main-area">
+
+    <!-- Manual entry form -->
+    <div class="manual-form" id="manual-form">
+      <h3>Manual entry — type client info directly</h3>
+      <div class="mf-row">
+        <div class="mf-field"><label>Business name</label><input id="m-name" placeholder="Wonder Kids Play School"></div>
+        <div class="mf-field"><label>Business type</label><input id="m-type" placeholder="Playschool"></div>
+      </div>
+      <div class="mf-row">
+        <div class="mf-field"><label>Area</label><input id="m-area" placeholder="RS Puram"></div>
+        <div class="mf-field"><label>WhatsApp</label><input id="m-phone" placeholder="98433 59033"></div>
+      </div>
+      <div class="mf-field"><label>Poster for</label><input id="m-purpose" placeholder="Admissions open 2026-27"></div>
+      <div class="mf-field"><label>Used on</label><input id="m-used" placeholder="Instagram post, WhatsApp status"></div>
+      <div class="mf-field"><label>All text content</label><textarea id="m-content" placeholder="All the text that must appear..."></textarea></div>
+      <div class="mf-row">
+        <div class="mf-field"><label>Has logo?</label><input id="m-logo" value="Yes — sending via WhatsApp"></div>
+        <div class="mf-field"><label>Has photos?</label><input id="m-photos" value="Yes — sending via WhatsApp"></div>
+      </div>
+      <div class="mf-row">
+        <div class="mf-field"><label>Brand colour</label><input id="m-colour" placeholder="Yellow and white"></div>
+        <div class="mf-field"><label>Mood</label><input id="m-mood" placeholder="Energetic, playful"></div>
+      </div>
+      <div class="mf-field"><label>Avoid</label><input id="m-avoid" placeholder="No dark backgrounds"></div>
+      <div class="mf-field"><label>Style reference</label><input id="m-ref" placeholder="Clean, like Apollo posts"></div>
+      <button class="action-btn primary" onclick="generateFromManual()">Generate AI prompt →</button>
+    </div>
+
+    <!-- Detail view injected here -->
+    <div id="detail-view">
+      <div class="empty-state">
+        <h2>Select an order</h2>
+        <p>Choose an order from the sidebar to see the details and generate your AI design prompt. Or use manual entry for clients who sent info via WhatsApp.</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+let selectedOrder=null;
+
+function loadOrders(){
+  try{
+    const orders=JSON.parse(localStorage.getItem('divit_orders')||'[]');
+    const list=document.getElementById('order-list');
+    if(!orders.length){
+      list.innerHTML='<div style="padding:1rem;font-size:13px;color:var(--muted);">No orders yet. Share the customer form link to start getting orders.</div>';
+      return;
+    }
+    list.innerHTML=orders.map((o,i)=>`
+      <div class="order-card" onclick="showOrder(${i})" id="oc-${i}">
+        <div class="oc-name">${o.bizName||'Unknown'}</div>
+        <div class="oc-type">${o.bizType||''} · ${o.area||''}</div>
+        <div class="oc-badges">
+          <div class="badge gold">₹100 paid</div>
+          <div class="badge blue">${o.posterType||'poster'}</div>
+          <div class="badge muted">${o.timestamp||''}</div>
+        </div>
+      </div>
+    `).join('');
+  }catch(e){console.error(e);}
+}
+
+function showOrder(i){
+  const orders=JSON.parse(localStorage.getItem('divit_orders')||'[]');
+  selectedOrder=orders[i];
+  document.querySelectorAll('.order-card').forEach(c=>c.classList.remove('active'));
+  const card=document.getElementById('oc-'+i);
+  if(card)card.classList.add('active');
+  renderDetail(selectedOrder);
+}
+
+function renderDetail(o){
+  const prompt=generatePrompt(o);
+  const monthlyMsg=`Hi ${o.bizName}! Glad you liked the poster. Quick question — would you like me to handle your Instagram designs every month? I can do 3 posters/month for ₹650, or 5 posters/month for ₹950. No contract — stop any time. Interested?`;
+
+  document.getElementById('detail-view').innerHTML=`
+    <div class="detail">
+      <div class="detail-header">
+        <h2>${o.bizName}</h2>
+        <p>${o.bizType} · ${o.area} · ${o.phone} · ${o.timestamp||''}</p>
+      </div>
+
+      <div class="workflow">
+        <h3>Workflow status</h3>
+        <div class="wf-step"><div class="wf-num done">✓</div><div class="wf-text"><strong>Cold DM sent</strong><span>They replied and were interested</span></div></div>
+        <div class="wf-step"><div class="wf-num done">✓</div><div class="wf-text"><strong>Free sample sent</strong><span>Wonder Kids poster shown as proof of work</span></div></div>
+        <div class="wf-step"><div class="wf-num done">✓</div><div class="wf-text"><strong>₹100 custom sample ordered</strong><span>Form submitted — payment confirmed</span></div></div>
+        <div class="wf-step"><div class="wf-num active">→</div><div class="wf-text"><strong>Design the poster now</strong><span>Copy the AI prompt below → paste into ChatGPT → build in Canva</span></div></div>
+        <div class="wf-step"><div class="wf-num pending">5</div><div class="wf-text"><strong>Collect ₹150 remaining</strong><span>After they approve the watermarked preview</span></div></div>
+        <div class="wf-step"><div class="wf-num pending">6</div><div class="wf-text"><strong>Pitch monthly plan</strong><span>Use the message below after delivery</span></div></div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-item"><div class="k">Poster for</div><div class="v">${o.posterType}</div></div>
+        <div class="info-item"><div class="k">Used on</div><div class="v">${(o.usedFor||[]).join(', ')}</div></div>
+        <div class="info-item"><div class="k">Logo</div><div class="v">${o.hasLogo||'—'}</div></div>
+        <div class="info-item"><div class="k">Photos</div><div class="v">${o.hasPhotos||'—'}</div></div>
+        <div class="info-item"><div class="k">Brand colour</div><div class="v">${o.brandColour||'Not specified'}</div></div>
+        <div class="info-item"><div class="k">Mood</div><div class="v">${(o.moods||[]).join(', ')}</div></div>
+      </div>
+
+      <div class="content-box">
+        <div class="label">All poster text</div>
+        <div class="text">${o.content||'—'}</div>
+      </div>
+
+      <div class="prompt-section">
+        <div class="ps-header">
+          <h3>AI design prompt — copy → paste into ChatGPT or Gemini</h3>
+          <button class="copy-btn" id="copy-main" onclick="copyText(prompt,'copy-main')">Copy prompt</button>
+        </div>
+        <div class="prompt-text" id="prompt-display">${prompt}</div>
+      </div>
+
+      <div class="monthly-pitch">
+        <h3>Monthly plan pitch — send after they approve the poster</h3>
+        <p>Wait until they've seen the finished poster and said something positive. Then send this:</p>
+        <div class="monthly-msg" id="monthly-msg-text">${monthlyMsg}</div>
+        <button class="copy-small" onclick="copyText(monthlyMsg,'monthly-copy-btn')" id="monthly-copy-btn">Copy message</button>
+      </div>
+
+    </div>
+  `;
+
+  // Store prompt for copy function
+  window._currentPrompt=prompt;
+  window._monthlyMsg=monthlyMsg;
+}
+
+function copyText(text,btnId){
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById(btnId);
+    if(!btn)return;
+    const orig=btn.textContent;
+    btn.textContent='Copied ✓';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied');},2000);
+  });
+}
+
+function toggleManual(){
+  const f=document.getElementById('manual-form');
+  f.style.display=f.style.display==='none'||!f.style.display?'block':'none';
+}
+
+function generateFromManual(){
+  const o={
+    bizName:document.getElementById('m-name').value||'Business',
+    bizType:document.getElementById('m-type').value||'',
+    area:document.getElementById('m-area').value||'Coimbatore',
+    phone:document.getElementById('m-phone').value||'',
+    posterType:document.getElementById('m-purpose').value||'',
+    usedFor:[document.getElementById('m-used').value],
+    content:document.getElementById('m-content').value||'',
+    hasLogo:document.getElementById('m-logo').value,
+    hasPhotos:document.getElementById('m-photos').value,
+    brandColour:document.getElementById('m-colour').value,
+    moods:[document.getElementById('m-mood').value],
+    avoid:document.getElementById('m-avoid').value,
+    styleRef:document.getElementById('m-ref').value,
+    timestamp:'Manual entry',
+  };
+  document.getElementById('manual-form').style.display='none';
+  renderDetail(o);
+}
+
+function generatePrompt(f){
+return `You are my Canva design assistant. A client has ordered a custom poster. Here are all the details — give me a complete, actionable design plan to execute immediately in Canva.
+
+━━━ CLIENT BRIEF ━━━
+
+Business: ${f.bizName}
+Type: ${f.bizType}
+Area: ${f.area}, Coimbatore
+WhatsApp: ${f.phone}
+
+Poster purpose: ${f.posterType}
+Used for: ${(f.usedFor||[]).join(', ')}
+
+ALL TEXT that must appear:
+${f.content}
+
+Logo available: ${f.hasLogo||'Yes'}
+Photos available: ${f.hasPhotos||'Yes'}
+Brand colour: ${f.brandColour||'not specified — choose what fits'}
+Mood: ${(f.moods||[]).join(', ')}
+Avoid: ${f.avoid||'nothing specified'}
+Style reference: ${f.styleRef||'none'}
+
+━━━ DELIVER THIS EXACT PLAN ━━━
+
+A. ONE-SENTENCE CONCEPT — one bold sentence committing to a clear direction
+
+B. COLOUR PALETTE — exactly 5 colours with hex codes:
+   Primary | Secondary | Accent | Background | Body text
+   One line on why this palette fits the mood
+
+C. FONT PAIRING — free Canva fonts only
+   Title: font name + weight + size (pt)
+   Body: font name + weight + size
+   CTA (if different): font name
+   One fallback per font
+
+D. LAYOUT — every element top to bottom with % placement
+   Format: "Top 0–15%: [element] — alignment, size, colour"
+   Cover 0% to 100% with no gaps
+
+E. 1–3–10 SECOND TEST
+   1 second: what grabs attention first
+   3 seconds: what they read next
+   10 seconds: final detail they notice
+   Action: what they do immediately after
+
+F. VISUAL ELEMENTS — exactly 5, with placement
+   Format: "[specific element] — position, size, colour stop"
+   Be specific: not "shapes" but "rounded rectangle badge, bottom-right corner, 18% width, accent colour"
+
+G. 5 MISTAKES TO AVOID — specific to this business type and poster, not generic
+
+H. CANVA TIPS — 4 specific tool tips for free Canva
+   Name actual features: Frames, Smart Resize, Elements filter, etc.
+
+I. TIME SPLIT — I have 1 hour:
+   Setup + grid: X min
+   Fonts + text: X min
+   Colours + background: X min
+   Icons + visuals: X min
+   Polish + export: X min
+
+J. EXPORT — PNG or PDF? which quality setting? watermarked preview first?
+
+Make every decision. No "it depends." I will execute this in Canva right now.`;}
+
+loadOrders();
+</script>
+</body>
+</html>

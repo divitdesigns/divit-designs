@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order a Custom Poster — Divit Designs</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --navy:#1a3a5c;
+  --gold:#c9a84c;
+  --cream:#faf8f4;
+  --white:#ffffff;
+  --text:#1a1a2e;
+  --muted:#6b7280;
+  --border:#e5e0d8;
+  --success:#166534;
+  --success-bg:#f0fdf4;
+}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--cream);
+  color:var(--text);
+  min-height:100vh;
+}
+
+.hero{
+  background:var(--navy);
+  padding:3rem 1.5rem 2.5rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  top:-60px;right:-60px;
+  width:220px;height:220px;
+  border-radius:50%;
+  background:rgba(201,168,76,0.12);
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  bottom:-80px;left:-40px;
+  width:180px;height:180px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.04);
+}
+.badge{
+  display:inline-block;
+  background:rgba(201,168,76,0.2);
+  color:var(--gold);
+  border:1px solid rgba(201,168,76,0.4);
+  padding:4px 14px;
+  border-radius:99px;
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  margin-bottom:1rem;
+  position:relative;z-index:1;
+}
+.hero h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(1.8rem,5vw,2.6rem);
+  color:#fff;
+  line-height:1.2;
+  margin-bottom:0.75rem;
+  position:relative;z-index:1;
+}
+.hero p{
+  font-size:15px;
+  color:rgba(255,255,255,0.72);
+  max-width:420px;
+  margin:0 auto 1.5rem;
+  line-height:1.6;
+  position:relative;z-index:1;
+}
+.price-chips{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  position:relative;z-index:1;
+}
+.chip{
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.2);
+  color:rgba(255,255,255,0.9);
+  padding:6px 14px;
+  border-radius:99px;
+  font-size:13px;
+  font-weight:500;
+}
+.chip.highlight{
+  background:var(--gold);
+  border-color:var(--gold);
+  color:var(--navy);
+  font-weight:600;
+}
+
+.container{max-width:560px;margin:0 auto;padding:2rem 1.25rem;}
+
+.notice{
+  background:#fff8eb;
+  border-left:3px solid var(--gold);
+  border-radius:8px;
+  padding:12px 16px;
+  font-size:13px;
+  color:#78491a;
+  line-height:1.5;
+  margin-bottom:1.5rem;
+}
+
+.steps{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:1.5rem;
+  position:relative;
+}
+.steps::before{
+  content:'';
+  position:absolute;
+  top:14px;left:14px;right:14px;
+  height:1px;
+  background:var(--border);
+  z-index:0;
+}
+.step-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  z-index:1;
+  flex:1;
+}
+.step-dot{
+  width:28px;height:28px;
+  border-radius:50%;
+  background:var(--border);
+  color:var(--muted);
+  font-size:12px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;
+}
+.step-dot.active{background:var(--navy);color:#fff;}
+.step-dot.done{background:var(--success);color:#fff;}
+.step-label{
+  font-size:10px;
+  color:var(--muted);
+  text-align:center;
+  font-weight:500;
+  letter-spacing:0.03em;
+}
+.step-label.active{color:var(--navy);font-weight:600;}
+
+.card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:1.5rem;
+  margin-bottom:1rem;
+  display:none;
+}
+.card.active{display:block;}
+
+.section-title{
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:1.25rem;
+}
+
+.field{margin-bottom:1.1rem;}
+.field label{
+  display:block;
+  font-size:13px;
+  font-weight:500;
+  color:var(--text);
+  margin-bottom:6px;
+}
+.field label .req{color:#dc2626;margin-left:2px;}
+.field .hint{
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:6px;
+  line-height:1.4;
+}
+input,select,textarea{
+  width:100%;
+  padding:10px 14px;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  font-family:inherit;
+  font-size:14px;
+  color:var(--text);
+  background:#fff;
+  outline:none;
+  transition:border-color .2s;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--navy);}
+textarea{resize:vertical;min-height:120px;}
+
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+.check-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.check-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 12px;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  cursor:pointer;
+  font-size:13px;
+  transition:all .15s;
+  line-height:1.3;
+}
+.check-label:hover{border-color:var(--navy);}
+.check-label input{width:auto;accent-color:var(--navy);}
+.check-label.checked{border-color:var(--navy);background:#f0f4ff;}
+
+.summary-box{
+  background:#f0f4ff;
+  border:1.5px solid #c7d2fe;
+  border-radius:12px;
+  padding:1rem 1.25rem;
+  margin-bottom:1rem;
+}
+.summary-box .business{
+  font-weight:600;font-size:15px;
+  color:var(--navy);margin-bottom:2px;
+}
+.summary-box .detail{
+  font-size:13px;color:#4338ca;
+}
+.summary-row{
+  display:flex;justify-content:space-between;
+  border-top:1px solid #c7d2fe;
+  margin-top:10px;padding-top:10px;
+  font-size:14px;font-weight:500;
+}
+.summary-row .price{color:var(--navy);font-weight:700;}
+.summary-note{font-size:11px;color:#6366f1;margin-top:4px;}
+
+.pay-confirm{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:14px;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  cursor:pointer;
+  transition:border-color .2s;
+}
+.pay-confirm:has(input:checked){border-color:var(--success);background:var(--success-bg);}
+.pay-confirm input{margin-top:2px;accent-color:var(--success);flex-shrink:0;}
+.pay-confirm span{font-size:13px;line-height:1.5;color:var(--text);}
+
+.btn-row{display:flex;gap:10px;margin-top:1.25rem;}
+.btn-primary{
+  flex:1;
+  background:var(--navy);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  padding:13px 20px;
+  font-family:inherit;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:opacity .2s,transform .1s;
+}
+.btn-primary:hover{opacity:.9;}
+.btn-primary:active{transform:scale(.98);}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;}
+.btn-secondary{
+  padding:13px 20px;
+  background:#fff;
+  color:var(--text);
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  font-family:inherit;
+  font-size:14px;
+  cursor:pointer;
+  transition:border-color .2s;
+}
+.btn-secondary:hover{border-color:var(--navy);}
+
+.success-screen{
+  display:none;
+  text-align:center;
+  padding:3rem 1.5rem;
+}
+.success-screen.show{display:block;}
+.success-icon{
+  width:72px;height:72px;
+  background:var(--success-bg);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.25rem;
+  font-size:32px;
+}
+.success-screen h2{
+  font-family:'DM Serif Display',serif;
+  font-size:1.8rem;
+  margin-bottom:.5rem;
+}
+.success-screen p{color:var(--muted);font-size:14px;line-height:1.6;max-width:380px;margin:0 auto;}
+
+.next-steps{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:1.25rem 1.5rem;
+  margin-top:1.5rem;
+  text-align:left;
+}
+.next-steps h3{
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:1rem;
+}
+.next-step{
+  display:flex;align-items:flex-start;gap:10px;
+  margin-bottom:.75rem;
+}
+.ns-num{
+  width:22px;height:22px;
+  background:var(--navy);
+  color:#fff;
+  border-radius:50%;
+  font-size:11px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+}
+.ns-text{font-size:13px;line-height:1.5;color:var(--text);}
+
+footer{
+  text-align:center;
+  padding:2rem 1rem;
+  font-size:12px;
+  color:var(--muted);
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Coimbatore · Design Service</div>
+  <h1>Get a custom poster<br>made for your business</h1>
+  <p>Professional Instagram and WhatsApp designs, delivered in 1 hour. Free sample always.</p>
+  <div class="price-chips">
+    <div class="chip">Free generic sample</div>
+    <div class="chip highlight">Custom sample — ₹100</div>
+    <div class="chip">Full poster — ₹250</div>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="notice">
+  <strong>Pay ₹100 first:</strong> Send to UPI <strong>7845746739@fam</strong> (FamPay), screenshot the confirmation — needed in the last step.
+</div>
+
+<div class="steps">
+  <div class="step-item">
+    <div class="step-dot active" id="dot-1">1</div>
+    <div class="step-label active" id="lbl-1">Business</div>
+  </div>
+  <div class="step-item">
+    <div class="step-dot" id="dot-2">2</div>
+    <div class="step-label" id="lbl-2">Poster</div>
+  </div>
+  <div class="step-item">
+    <div class="step-dot" id="dot-3">3</div>
+    <div class="step-label" id="lbl-3">Style</div>
+  </div>
+  <div class="step-item">
+    <div class="step-dot" id="dot-4">4</div>
+    <div class="step-label" id="lbl-4">Payment</div>
+  </div>
+</div>
+
+<!-- Step 1 -->
+<div class="card active" id="step-1">
+  <div class="section-title">Your business</div>
+  <div class="field">
+    <label>Business name <span class="req">*</span></label>
+    <input type="text" id="bizName" placeholder="e.g. Wonder Kids Play School">
+  </div>
+  <div class="field">
+    <label>Business type <span class="req">*</span></label>
+    <select id="bizType">
+      <option value="" disabled selected>Choose one</option>
+      <option>Playschool / Preschool</option>
+      <option>Tuition Centre</option>
+      <option>Dance / Music School</option>
+      <option>Summer Camp</option>
+      <option>Yoga / Fitness Studio</option>
+      <option>Gym</option>
+      <option>Florist</option>
+      <option>Bridal Makeup Artist</option>
+      <option>Catering Service</option>
+      <option>Dental / Medical Clinic</option>
+      <option>Travel Agency</option>
+      <option>Cafe / Restaurant</option>
+      <option>Boutique / Clothing</option>
+      <option>Other</option>
+    </select>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label>Area <span class="req">*</span></label>
+      <input type="text" id="area" placeholder="RS Puram, Ganapathy...">
+    </div>
+    <div class="field">
+      <label>WhatsApp <span class="req">*</span></label>
+      <input type="tel" id="phone" placeholder="98XXX XXXXX">
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn-primary" onclick="next(1)">Continue →</button>
+  </div>
+</div>
+
+<!-- Step 2 -->
+<div class="card" id="step-2">
+  <div class="section-title">About the poster</div>
+  <div class="field">
+    <label>What is this poster for? <span class="req">*</span></label>
+    <select id="posterType">
+      <option value="" disabled selected>Choose one</option>
+      <option>Admissions open</option>
+      <option>Summer camp promotion</option>
+      <option>Festival offer / sale</option>
+      <option>New batch starting</option>
+      <option>Menu or price list</option>
+      <option>Event announcement</option>
+      <option>New service launch</option>
+      <option>Other</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>Where will it be used? <span class="req">*</span></label>
+    <div class="check-grid" id="usedFor">
+      <label class="check-label"><input type="checkbox" value="Instagram post (1080×1080)"> Instagram post</label>
+      <label class="check-label"><input type="checkbox" value="Instagram story (vertical)"> Instagram story</label>
+      <label class="check-label"><input type="checkbox" value="WhatsApp status"> WhatsApp status</label>
+      <label class="check-label"><input type="checkbox" value="Printed flyer (A5/A4)"> Printed flyer</label>
+    </div>
+  </div>
+  <div class="field">
+    <label>All text for the poster <span class="req">*</span></label>
+    <div class="hint">Include everything: business name, dates, fees, phone, address, offer details.</div>
+    <textarea id="content" placeholder="e.g.&#10;Wonder Kids Play School&#10;Summer Camp 2026 — Now Running&#10;May 11–25  |  Ages 2–6&#10;₹3,500 all materials included&#10;Call: 98433 59033"></textarea>
+  </div>
+  <div class="btn-row">
+    <button class="btn-secondary" onclick="back(2)">← Back</button>
+    <button class="btn-primary" onclick="next(2)">Continue →</button>
+  </div>
+</div>
+
+<!-- Step 3 -->
+<div class="card" id="step-3">
+  <div class="section-title">Style & brand</div>
+  <div class="field">
+    <label>Logo?</label>
+    <select id="hasLogo">
+      <option>Yes — I'll send via WhatsApp</option>
+      <option>No — use business name as text</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>Photos?</label>
+    <select id="hasPhotos">
+      <option>Yes — I'll send via WhatsApp</option>
+      <option>No — use icons / illustrations</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>Brand colour (optional)</label>
+    <input type="text" id="brandColour" placeholder="e.g. Yellow and white, or #1F4E78">
+  </div>
+  <div class="field">
+    <label>Mood <span class="req">*</span></label>
+    <div class="check-grid" id="moods">
+      <label class="check-label"><input type="checkbox" value="Energetic & bright"> Energetic</label>
+      <label class="check-label"><input type="checkbox" value="Playful & fun"> Playful</label>
+      <label class="check-label"><input type="checkbox" value="Clean & professional"> Professional</label>
+      <label class="check-label"><input type="checkbox" value="Elegant & minimal"> Elegant</label>
+      <label class="check-label"><input type="checkbox" value="Bold & urgent"> Bold / urgent</label>
+      <label class="check-label"><input type="checkbox" value="Warm & friendly"> Warm</label>
+    </div>
+  </div>
+  <div class="field">
+    <label>Anything to avoid? (optional)</label>
+    <input type="text" id="avoid" placeholder="e.g. No dark backgrounds, no Comic Sans">
+  </div>
+  <div class="field">
+    <label>Style reference (optional)</label>
+    <input type="text" id="styleRef" placeholder="e.g. Clean like Apollo Pharmacy posts">
+  </div>
+  <div class="btn-row">
+    <button class="btn-secondary" onclick="back(3)">← Back</button>
+    <button class="btn-primary" onclick="next(3)">Continue →</button>
+  </div>
+</div>
+
+<!-- Step 4 -->
+<div class="card" id="step-4">
+  <div class="section-title">Payment confirmation</div>
+  <div class="summary-box">
+    <div class="business" id="sum-name">—</div>
+    <div class="detail" id="sum-detail">—</div>
+    <div class="summary-row">
+      <span>Custom sample deposit</span>
+      <span class="price">₹100</span>
+    </div>
+    <div class="summary-note">₹100 deducted from first full poster (₹250 total → ₹150 remaining)</div>
+  </div>
+  <label class="pay-confirm">
+    <input type="checkbox" id="paidCheck">
+    <span>I have sent ₹100 to <strong>7845746739@fam</strong> (FamPay UPI) and have the payment screenshot to send on WhatsApp.</span>
+  </label>
+  <div class="btn-row">
+    <button class="btn-secondary" onclick="back(4)">← Back</button>
+    <button class="btn-primary" id="submitBtn" onclick="submitForm()" disabled>Submit order</button>
+  </div>
+</div>
+
+<!-- Success -->
+<div class="success-screen" id="success">
+  <div class="success-icon">✅</div>
+  <h2>Order received!</h2>
+  <p>I'll WhatsApp you within 1 hour to confirm your order and collect the logo and photos if needed.</p>
+  <div class="next-steps">
+    <h3>What happens next</h3>
+    <div class="next-step"><div class="ns-num">1</div><div class="ns-text">I'll WhatsApp you to collect your logo and photos</div></div>
+    <div class="next-step"><div class="ns-num">2</div><div class="ns-text">Your custom poster is designed and sent to you within 1 hour</div></div>
+    <div class="next-step"><div class="ns-num">3</div><div class="ns-text">Review it — 2 free revisions included</div></div>
+    <div class="next-step"><div class="ns-num">4</div><div class="ns-text">Happy? Pay the remaining ₹150. Final high-res files delivered in 5 minutes</div></div>
+  </div>
+</div>
+
+</div>
+
+<footer>Divit Designs · Coimbatore · 7845746739@fam</footer>
+
+<script>
+let formData={};
+let currentStep=1;
+
+document.querySelectorAll('.check-label input').forEach(cb=>{
+  cb.addEventListener('change',function(){
+    this.closest('.check-label').classList.toggle('checked',this.checked);
+  });
+});
+
+document.getElementById('paidCheck').addEventListener('change',function(){
+  document.getElementById('submitBtn').disabled=!this.checked;
+});
+
+function getChecked(containerId){
+  return [...document.querySelectorAll('#'+containerId+' input:checked')].map(c=>c.value);
+}
+
+function validate(step){
+  if(step===1){
+    return document.getElementById('bizName').value.trim()&&
+           document.getElementById('bizType').value&&
+           document.getElementById('area').value.trim()&&
+           document.getElementById('phone').value.trim();
+  }
+  if(step===2){
+    return document.getElementById('posterType').value&&
+           getChecked('usedFor').length>0&&
+           document.getElementById('content').value.trim().length>10;
+  }
+  if(step===3){
+    return getChecked('moods').length>0;
+  }
+  return true;
+}
+
+function next(from){
+  if(!validate(from)){
+    alert('Please fill in all required fields before continuing.');return;
+  }
+  collect(from);
+  goTo(from+1);
+  if(from===3){
+    document.getElementById('sum-name').textContent=formData.bizName+' — '+formData.bizType;
+    document.getElementById('sum-detail').textContent=formData.posterType+' · '+formData.usedFor.join(', ');
+  }
+}
+
+function back(from){goTo(from-1);}
+
+function goTo(n){
+  document.getElementById('step-'+currentStep).classList.remove('active');
+  updateDots(currentStep,'done');
+  if(n<=currentStep)updateDots(n,'active');
+  currentStep=n;
+  const card=document.getElementById('step-'+n);
+  if(card){card.classList.add('active');}
+  updateDots(n,'active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateDots(n,state){
+  const dot=document.getElementById('dot-'+n);
+  const lbl=document.getElementById('lbl-'+n);
+  dot.className='step-dot'+(state==='active'?' active':state==='done'?' done':'');
+  dot.textContent=state==='done'?'✓':n;
+  lbl.className='step-label'+(state==='active'?' active':'');
+}
+
+function collect(step){
+  if(step===1){
+    formData.bizName=document.getElementById('bizName').value.trim();
+    formData.bizType=document.getElementById('bizType').value;
+    formData.area=document.getElementById('area').value.trim();
+    formData.phone=document.getElementById('phone').value.trim();
+  }
+  if(step===2){
+    formData.posterType=document.getElementById('posterType').value;
+    formData.usedFor=getChecked('usedFor');
+    formData.content=document.getElementById('content').value.trim();
+  }
+  if(step===3){
+    formData.hasLogo=document.getElementById('hasLogo').value;
+    formData.hasPhotos=document.getElementById('hasPhotos').value;
+    formData.brandColour=document.getElementById('brandColour').value.trim();
+    formData.moods=getChecked('moods');
+    formData.avoid=document.getElementById('avoid').value.trim();
+    formData.styleRef=document.getElementById('styleRef').value.trim();
+  }
+}
+
+function submitForm(){
+  collect(4);
+  formData.timestamp=new Date().toLocaleString('en-IN');
+
+  try{
+    const existing=JSON.parse(localStorage.getItem('divit_orders')||'[]');
+    existing.unshift(formData);
+    localStorage.setItem('divit_orders',JSON.stringify(existing.slice(0,100)));
+  }catch(e){}
+
+  document.getElementById('step-4').classList.remove('active');
+  document.getElementById('success').classList.add('show');
+  updateDots(4,'done');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
